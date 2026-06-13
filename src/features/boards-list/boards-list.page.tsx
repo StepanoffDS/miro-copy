@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { rqClient } from '@/shared/api/instance';
 import { ROUTES } from '@/shared/model/routes';
+import { Button } from '@/shared/ui/kit/button';
 import { Card, CardFooter, CardHeader } from '@/shared/ui/kit/card';
 import { useQueryClient } from '@tanstack/react-query';
 import { href, Link } from 'react-router-dom';
