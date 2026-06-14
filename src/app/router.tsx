@@ -2,6 +2,8 @@ import { createBrowserRouter, redirect } from 'react-router-dom';
 import { App } from './App';
 import { ROUTES } from '@/shared/model/routes';
 import { Providers } from './Providers';
+import { ProtectedLoader, ProtectedRoute } from './protected-route';
+import { AppHeader } from '@/features/header';
 
 export const router = createBrowserRouter([
   {
@@ -12,12 +14,23 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: ROUTES.BOARDS,
-        lazy: () => import('@/features/boards-list/boards-list.page'),
-      },
-      {
-        path: ROUTES.BOARD,
-        lazy: () => import('@/features/board/board.page'),
+        loader: ProtectedLoader,
+        element: (
+          <>
+            <AppHeader />
+            <ProtectedRoute />
+          </>
+        ),
+        children: [
+          {
+            path: ROUTES.BOARDS,
+            lazy: () => import('@/features/boards-list/boards-list.page'),
+          },
+          {
+            path: ROUTES.BOARD,
+            lazy: () => import('@/features/board/board.page'),
+          },
+        ],
       },
       {
         path: ROUTES.LOGIN,
