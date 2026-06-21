@@ -31,13 +31,6 @@ schemas:
     properties:
       name:
         type: string
-  CreateBoard:
-    type: object
-    required:
-      - name
-    properties:
-      name:
-        type: string
   UpdateBoardFavorite:
     type: object
     required:
@@ -134,12 +127,6 @@ createBoard:
   summary: Create a new board
   security:
     - bearerAuth: []
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: '#/schemas/CreateBoard'
   responses:
     '201':
       description: Board created successfully

@@ -169,11 +169,7 @@ export interface paths {
                 path?: never;
                 cookie?: never;
             };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["CreateBoard"];
-                };
-            };
+            requestBody?: never;
             responses: {
                 /** @description Board created successfully */
                 201: {
@@ -385,9 +381,6 @@ export interface components {
             list: components["schemas"]["Board"][];
             total: number;
             totalPages: number;
-        };
-        CreateBoard: {
-            name: string;
         };
         UpdateBoardFavorite: {
             isFavorite: boolean;
