@@ -1,33 +1,21 @@
-import { Button } from '@/shared/ui/kit/button';
-
 import { useBoardsList } from './model/use-boards-list';
-import { useBoardsFilters } from './model/use-boards-filters';
-import { useDebouncedValue } from '@/shared/lib/react';
-import { useCreateBoard } from './model/use-create-board';
-import { PlusIcon } from 'lucide-react';
+
 import {
   BoardsListLayout,
-  BoardsListLayoutFilters,
   BoardsListLayoutHeader,
   BoardsListLayoutContent,
 } from './ui/boards-list-layout';
 import { ViewModeToggle, type ViewMode } from './ui/view-mode-toggle';
 import { useState } from 'react';
-import { BoardsSearchInput } from './ui/boards-search-input';
-import { BoardsSortSelect } from './ui/boards-sort-select';
 
 import { BoardCard } from './compose/board-card';
 import { BoardItem } from './compose/board-item';
 import { BoardsSidebar } from './ui/boards-sidebar';
 
 function BoardsListPage() {
-  const boardsFilters = useBoardsFilters();
   const { setCursorElement, ...boardsQuery } = useBoardsList({
-    sort: boardsFilters.sort,
-    search: useDebouncedValue(boardsFilters.search, 300),
+    isFavorite: true,
   });
-
-  const createBoard = useCreateBoard();
 
   const [viewMode, setViewMode] = useState<ViewMode>('list');
 
@@ -36,33 +24,8 @@ function BoardsListPage() {
       sidebar={<BoardsSidebar />}
       header={
         <BoardsListLayoutHeader
-          title='Доски'
-          description='Здесь вы можете просматривать и управлять своими досками'
-          actions={
-            <Button
-              onClick={createBoard.createBoard}
-              disabled={createBoard.isPending}
-            >
-              <PlusIcon />
-              Создать доску
-            </Button>
-          }
-        />
-      }
-      filters={
-        <BoardsListLayoutFilters
-          sort={
-            <BoardsSortSelect
-              value={boardsFilters.sort}
-              onValueChange={(value) => boardsFilters.setSort(value)}
-            />
-          }
-          filters={
-            <BoardsSearchInput
-              value={boardsFilters.search}
-              onValueChange={(value) => boardsFilters.setSearch(value)}
-            />
-          }
+          title='Избранные доски'
+          description='Здесь вы можете просматривать и управлять своими избранными досками'
           actions={<ViewModeToggle value={viewMode} onChange={setViewMode} />}
         />
       }
