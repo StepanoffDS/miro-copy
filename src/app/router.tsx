@@ -1,9 +1,11 @@
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import { App } from './App';
-import { ROUTES } from '@/shared/model/routes';
-import { Providers } from './Providers';
-import { ProtectedLoader, ProtectedRoute } from './protected-route';
+
 import { AppHeader } from '@/features/header';
+import { ROUTES } from '@/shared/model/routes';
+
+import { App } from './App';
+import { ProtectedLoader, ProtectedRoute } from './protected-route';
+import { Providers } from './Providers';
 
 export const router = createBrowserRouter([
   {

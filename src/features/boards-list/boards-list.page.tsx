@@ -1,24 +1,28 @@
-import { Button } from '@/shared/ui/kit/button';
-
-import { useBoardsList } from './model/use-boards-list';
-import { useBoardsFilters } from './model/use-boards-filters';
-import { useDebouncedValue } from '@/shared/lib/react';
-import { useCreateBoard } from './model/use-create-board';
 import { PlusIcon } from 'lucide-react';
-import {
-  BoardsListLayout,
-  BoardsListLayoutFilters,
-  BoardsListLayoutHeader,
-  BoardsListLayoutContent,
-} from './ui/boards-list-layout';
-import { ViewModeToggle, type ViewMode } from './ui/view-mode-toggle';
 import { useState } from 'react';
-import { BoardsSearchInput } from './ui/boards-search-input';
-import { BoardsSortSelect } from './ui/boards-sort-select';
+
+import {
+  TemplatesGallery,
+  useTemplatesModal,
+} from '@/features/board-templates';
+import { useDebouncedValue } from '@/shared/lib/react';
+import { Button } from '@/shared/ui/kit/button';
 
 import { BoardCard } from './compose/board-card';
 import { BoardItem } from './compose/board-item';
+import { useBoardsFilters } from './model/use-boards-filters';
+import { useBoardsList } from './model/use-boards-list';
+import { useCreateBoard } from './model/use-create-board';
+import {
+  BoardsListLayout,
+  BoardsListLayoutContent,
+  BoardsListLayoutFilters,
+  BoardsListLayoutHeader,
+} from './ui/boards-list-layout';
+import { BoardsSearchInput } from './ui/boards-search-input';
 import { BoardsSidebar } from './ui/boards-sidebar';
+import { BoardsSortSelect } from './ui/boards-sort-select';
+import { type ViewMode, ViewModeToggle } from './ui/view-mode-toggle';
 
 function BoardsListPage() {
   const boardsFilters = useBoardsFilters();
@@ -27,25 +31,33 @@ function BoardsListPage() {
     search: useDebouncedValue(boardsFilters.search, 300),
   });
 
+  const templatesModal = useTemplatesModal();
+
   const createBoard = useCreateBoard();
 
   const [viewMode, setViewMode] = useState<ViewMode>('list');
 
   return (
     <BoardsListLayout
+      templates={<TemplatesGallery />}
       sidebar={<BoardsSidebar />}
       header={
         <BoardsListLayoutHeader
           title='Доски'
           description='Здесь вы можете просматривать и управлять своими досками'
           actions={
-            <Button
-              onClick={createBoard.createBoard}
-              disabled={createBoard.isPending}
-            >
-              <PlusIcon />
-              Создать доску
-            </Button>
+            <>
+              <Button variant='outline' onClick={templatesModal.open}>
+                Выбрать шаблон
+              </Button>
+              <Button
+                onClick={createBoard.createBoard}
+                disabled={createBoard.isPending}
+              >
+                <PlusIcon />
+                Создать доску
+              </Button>
+            </>
           }
         />
       }

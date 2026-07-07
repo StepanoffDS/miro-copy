@@ -1,6 +1,7 @@
-import { rqClient } from '@/shared/api/instance';
 import { keepPreviousData } from '@tanstack/react-query';
-import { useCallback, type RefCallback } from 'react';
+import { type RefCallback,useCallback } from 'react';
+
+import { rqClient } from '@/shared/api/instance';
 
 type UseBoardsListParams = {
   limit?: number;

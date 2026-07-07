@@ -1,5 +1,6 @@
-import { cn } from '@/shared/lib/css';
 import { StarIcon } from 'lucide-react';
+
+import { cn } from '@/shared/lib/css';
 
 interface BoardsFavoriteToggleProps {
   isFavorite: boolean;

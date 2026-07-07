@@ -1,12 +1,13 @@
+import { MoreHorizontalIcon } from 'lucide-react';
+import { href,Link } from 'react-router-dom';
+
 import { ROUTES } from '@/shared/model/routes';
 import { Button } from '@/shared/ui/kit/button';
-import { Link, href } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/shared/ui/kit/dropdown-menu';
-import { MoreHorizontalIcon } from 'lucide-react';
 
 interface BoardsListItemProps {
   board: {

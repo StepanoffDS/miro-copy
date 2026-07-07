@@ -1,20 +1,19 @@
-import { useBoardsList } from './model/use-boards-list';
-
-import {
-  BoardsListLayout,
-  BoardsListLayoutHeader,
-  BoardsListLayoutContent,
-  BoardsLayoutContentGroups,
-  BoardsListLayoutList,
-  BoardsListLayoutCards,
-} from './ui/boards-list-layout';
-import { ViewModeToggle, type ViewMode } from './ui/view-mode-toggle';
 import { useState } from 'react';
 
-import { useRecentGroups } from './model/use-recent-groups';
 import { BoardCard } from './compose/board-card';
 import { BoardItem } from './compose/board-item';
+import { useBoardsList } from './model/use-boards-list';
+import { useRecentGroups } from './model/use-recent-groups';
+import {
+  BoardsLayoutContentGroups,
+  BoardsListLayout,
+  BoardsListLayoutCards,
+  BoardsListLayoutContent,
+  BoardsListLayoutHeader,
+  BoardsListLayoutList,
+} from './ui/boards-list-layout';
 import { BoardsSidebar } from './ui/boards-sidebar';
+import { type ViewMode,ViewModeToggle } from './ui/view-mode-toggle';
 
 function BoardsListPage() {
   const { setCursorElement, ...boardsQuery } = useBoardsList({

@@ -1,5 +1,6 @@
-import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/kit/tabs';
 import { ImagesIcon, ListIcon } from 'lucide-react';
+
+import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/kit/tabs';
 
 export type ViewMode = 'list' | 'cards';
 

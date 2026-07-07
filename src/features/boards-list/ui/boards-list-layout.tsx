@@ -1,6 +1,8 @@
 import type React from 'react';
-import type { ViewMode } from './view-mode-toggle';
+
 import { Skeleton } from '@/shared/ui/kit/skeleton';
+
+import type { ViewMode } from './view-mode-toggle';
 
 export function BoardsListLayout({
   header,
@@ -19,7 +21,7 @@ export function BoardsListLayout({
     <div className='container mx-auto'>
       <div className='flex gap-4'>
         {sidebar}
-        <div className='flex-1  p-4 flex flex-col gap-6'>
+        <div className='flex-1 p-4 flex flex-col gap-6'>
           {templates && (
             <div className='rounded-md bg-gray-100 p-4'>{templates}</div>
           )}
@@ -47,7 +49,7 @@ export function BoardsListLayoutHeader({
         <h1 className='text-2xl font-bold mb-6'>{title}</h1>
         {description && <p className='text-gray-500'>{description}</p>}
       </div>
-      {actions}
+      <div className='flex gap-2'>{actions}</div>
     </div>
   );
 }

@@ -1,8 +1,9 @@
+import { ClockIcon,LayoutGridIcon, StarIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { cn } from '@/shared/lib/css';
 import { ROUTES } from '@/shared/model/routes';
 import { Button } from '@/shared/ui/kit/button';
-import { Link } from 'react-router-dom';
-import { LayoutGridIcon, StarIcon, ClockIcon } from 'lucide-react';
-import { cn } from '@/shared/lib/css';
 
 interface BoardsSidebarProps {
   className?: string;

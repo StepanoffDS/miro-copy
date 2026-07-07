@@ -1,5 +1,6 @@
-import { rqClient } from '@/shared/api/instance';
 import { useQueryClient } from '@tanstack/react-query';
+
+import { rqClient } from '@/shared/api/instance';
 
 export function useDeleteBoard() {
   const queryClient = useQueryClient();
