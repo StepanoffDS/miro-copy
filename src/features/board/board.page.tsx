@@ -4,17 +4,41 @@ import { useParams } from 'react-router-dom';
 import { type PathParams, ROUTES } from '@/shared/model/routes';
 import { Button } from '@/shared/ui/kit/button';
 
+import { useNodes } from './nodes';
+import { useBoardViewState } from './view-state';
+
 function BoardPage() {
   const params = useParams<PathParams[typeof ROUTES.BOARD]>();
+
+  const { nodes, addSticker } = useNodes();
+  const { viewState, goToIdle, goToAddSticker } = useBoardViewState();
 
   return (
     <Layout>
       <Dots />
-      <Canvas>
-        <Sticker text='Hello' x={100} y={100} />
+      <Canvas
+        onClick={(e) => {
+          if (viewState.type === 'add-sticker') {
+            addSticker({ text: 'New Sticker', x: e.clientX, y: e.clientY });
+            goToIdle();
+          }
+        }}
+      >
+        {nodes.map((node) => (
+          <Sticker key={node.id} text={node.text} x={node.x} y={node.y} />
+        ))}
       </Canvas>
       <Actions>
-        <ActionButton isActive={false} onClick={() => {}}>
+        <ActionButton
+          isActive={viewState.type === 'add-sticker'}
+          onClick={() => {
+            if (viewState.type === 'add-sticker') {
+              goToIdle();
+            } else {
+              goToAddSticker();
+            }
+          }}
+        >
           <StickerIcon />
         </ActionButton>
         <ActionButton isActive={false} onClick={() => {}}>
