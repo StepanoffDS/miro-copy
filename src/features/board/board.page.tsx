@@ -1,53 +1,62 @@
 import { ArrowRightIcon, StickerIcon } from 'lucide-react';
-import { type Ref, type RefCallback, useCallback, useState } from 'react';
+import { type Ref, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { type PathParams, ROUTES } from '@/shared/model/routes';
 import { Button } from '@/shared/ui/kit/button';
 
 import { useNodes } from './nodes';
+import { useCanvasRect } from './use-canvas-rect';
 import { useBoardViewState } from './view-state';
 
-type CanvasRect = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
+export function useLayoutFocus() {
+  const layoutRef = useRef<HTMLDivElement>(null);
 
-const useCanvasRect = () => {
-  const [canvasRect, setCanvasRect] = useState<CanvasRect>();
-
-  const canvasRef: RefCallback<HTMLDivElement> = useCallback((el) => {
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect;
-        const { x, y } = entry.target.getBoundingClientRect();
-        setCanvasRect({ width, height, x, y });
-      }
-    });
-
-    if (el) {
-      observer.observe(el);
-
-      return () => {
-        observer.disconnect();
-      };
+  useEffect(() => {
+    if (layoutRef.current) {
+      layoutRef.current.focus();
     }
-  }, []);
 
-  return { canvasRef, canvasRect };
-};
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        layoutRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [layoutRef]);
+
+  return layoutRef;
+}
 
 function BoardPage() {
   const params = useParams<PathParams[typeof ROUTES.BOARD]>();
 
   const { nodes, addSticker } = useNodes();
   const { viewState, goToIdle, goToAddSticker } = useBoardViewState();
+  const focusLayoutRef = useLayoutFocus();
   const { canvasRef, canvasRect } = useCanvasRect();
 
   return (
-    <Layout>
+    <Layout
+      ref={focusLayoutRef}
+      onKeyDown={(e) => {
+        if (viewState.type === 'add-sticker') {
+          if (e.key === 'Escape') {
+            goToIdle();
+          }
+        }
+        if (viewState.type === 'idle') {
+          if (e.key === 's') {
+            goToAddSticker();
+          }
+        }
+      }}
+    >
       <Dots />
       <Canvas
         ref={canvasRef}
@@ -89,9 +98,16 @@ function BoardPage() {
 
 export const Component = BoardPage;
 
-function Layout({ children }: { children: React.ReactNode }) {
+function Layout({
+  children,
+  ref,
+  ...props
+}: {
+  children: React.ReactNode;
+  ref: Ref<HTMLDivElement>;
+} & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className='grow relative' tabIndex={0}>
+    <div className='grow relative' tabIndex={0} ref={ref} {...props}>
       {children}
     </div>
   );
